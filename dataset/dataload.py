@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import random
+import json
 
 def load_data(path):
     all_data=pd.read_csv(path,encoding="utf-8")
@@ -27,7 +28,7 @@ def load_data(path):
 
 def split_data(texts,labels):
     n_total=len(texts)
-    offset=int(n_total*2/3)
+    offset=int(n_total*4/5)
     if n_total==0:
         return []
     index=[i for i in range(n_total)]
@@ -40,6 +41,28 @@ def split_data(texts,labels):
     vali_text=[texts[i] for i in vali_index]
     vali_label=[labels[i] for i in vali_index]
     return train_text,train_label,vali_text,vali_label
+
+def reload_data():
+    with open(os.path.join("data","train_text.txt"),encoding='utf-8') as f:
+        tmp = f.read()
+        train_text=json.loads(tmp)
+    with open(os.path.join("data","train_label.txt")) as f:
+        tmp = f.read()
+        train_label=json.loads(tmp)
+    with open(os.path.join("data","vali_text.txt"),encoding='utf-8') as f:
+        tmp = f.read()
+        vali_text=json.loads(tmp)
+    with open(os.path.join("data","vali_label.txt")) as f:
+        tmp = f.read()
+        vali_label=json.loads(tmp)
+    with open(os.path.join("data","i2l.txt")) as f:
+        tmp = f.read()
+        index2label=json.loads(tmp)
+    with open(os.path.join("data","l2i.txt")) as f:
+        tmp = f.read()
+        label2index=json.loads(tmp)
+        
+    return train_text,train_label,vali_text,vali_label,label2index,index2label
 
 
 '''
